@@ -1,0 +1,97 @@
+CREATE DATABASE interview;
+USE interview;
+CREATE TABLE emp(id INT NOT NULL, Fname VARCHAR(15) , Lname VARCHAR(15) , salary INT NOT NULL);
+CREATE TABLE aaa AS SELECT* FROM emp;
+CREATE TABLE fkOrder(orderid INT NOT NULL,ordernum INT NOT NULL,id INT,PRIMARY KEY(id),FOREIGN KEY(orderid),REFERENCES emp(id));
+CREATE TABLE compoKey(id INT NOT NULL,col1 VARCHAR(20),col2 VARCHAR(20), PRIMARY KEY(col1,col2));
+CREATE TABLE candiKey(id INT NOT NULL PRIMARY KEY,sr_no INT NOT NULL UNIQUE KEY ,col1 VARCHAR(20),col2 VARCHAR(20));
+CREATE VIEW viewview AS SELECT * FROM emp;
+CREATE INDEX ind ON emp(salary);
+
+TRUNCATE TABLE aaa;
+DROP TABLE aa;
+
+ALTER TABLE emp RENAME TO employee;
+ALTER TABLE emp MODIFY Lname VARCHAR(25);
+ALTER TABLE emp ADD address VARCHAR(30); 
+ALTER TABLE emp DROP address;
+
+UPDATE emp SET EmpLname='yogi' WHERE id = 5;
+DELETE FROM emp WHERE id = 10;
+INSERT INTO emp VALUES(11,'avish','sohni',7594566571,55000,'4/5 kaachi nagar');
+
+SELECT * FROM emp;
+SELECT * FROM emp WHERE id =10;
+SELECT EmpFname,salary FROM emp WHERE id =9;
+SELECT DISTINCT EmpFname FROM emp;
+SELECT DISTINCT salary FROM emp LIMIT 5;	
+SELECT CONCAT(EmpFname,' ', EmpLname) AS FullName FROM emp LIMIT 0,6;
+
+SELECT * FROM emp WHERE EmpFname LIKE's%';
+SELECT * FROM emp WHERE EmpFname LIKE'%s';
+SELECT * FROM emp WHERE EmpFname LIKE's_';
+SELECT * FROM emp WHERE EmpFname LIKE'_s';
+SELECT * FROM emp WHERE EmpFname LIKE'_s_';
+SELECT * FROM emp WHERE EmpFname LIKE'%s%';
+SELECT * FROM emp WHERE EmpFname LIKE'__a';
+
+--salary
+
+SELECT * FROM emp WHERE salary BETWEEN 45000 AND 80000; 
+SELECT * FROM emp WHERE EmpFname LIKE's%' AND salary BETWEEN 45000 AND 50000;
+SELECT * FROM emp WHERE EmpFname LIKE's%' AND salary BETWEEN 25000 OR 80000 LIMIT 0,10;
+
+SELECT COUNT(salary) FROM emp;
+SELECT SUM(salary) FROM emp;
+SELECT AVG(salary) FROM emp;
+
+
+SELECT * FROM emp ORDER BY salary ASC;
+SELECT * FROM emp ORDER BY salary ASC LIMIT 4,1;
+SELECT * FROM emp ORDER BY salary DESC LIMIT 4,1;
+SELECT * FROM emp ORDER BY salary DESC LIMIT 0,1;
+SELECT * FROM emp ORDER BY salary DESC LIMIT 1,1;
+
+SELECT * FROM emp WHERE salary IN (25000,45000);
+SELECT * FROM emp WHERE id IN (5,6,10);
+SELECT * FROM emp WHERE id NOT IN (5,6,10);
+
+SELECT id,COUNT(salary) FROM emp GROUP BY salary;
+SELECT id,COUNT(salary) FROM emp GROUP BY salary HAVING COUNT(salary) < 15;
+SELECT id,COUNT(salary) FROM emp GROUP BY salary HAVING COUNT(salary) < 15 ORDER BY salary;
+
+SELECT UPPER(EmpFname),LOWER(EmpLname) FROM Emp;
+SELECT SUBSTR('ShashankTrivedi',9)FROM emp;
+
+--joint
+
+SELECT * FROM emp e INNER JOIN comp c ON e.'id' = c.'cid';
+--or
+SELECT * FROM emp e JOIN comp c ON e.'id' = c.'cid';
+
+SELECT * FROM emp e INNER JOIN comp c ON e.'id' = c.'cid' WHERE e.'id' = 5;
+SELECT * FROM emp e LEFT JOIN comp c ON e.'id' = c.'cid';
+SELECT * FROM emp e RIGHT JOIN comp c ON e.'id' = c.'cid';
+
+--selfJoin
+SELECT * FROM emp e,emp e1 WHERE e.`id`<>e1.`id`;
+
+--brings.unmatched.data
+SELECT * FROM emp e LEFT  JOIN comp c ON e.'id' = c.'cid' UNION SELECT * FROM emp e2 RIGHT  JOIN comp c2 ON e2.'id' = c2.'cid';
+
+SELECT * FROM emp e FULL OUTER JOIN company.c ON e.`id` = c.'cid' ORDER BY emp.id;
+
+--Group_By
+SELECT id,SUM(salary) FROM emp GROUP BY id;
+SELECT id,SUM(salary) FROM emp GROUP BY id HAVING SUM(salary)>40000;
+SELECT id,SUM(salary) FROM emp GROUP BY id HAVING SUM(salary)>40000 ORDER BY salary;
+
+--search.Query.of.Proj4
+
+SELECT * FROM st_user WHERE 1=1 AND id=? AND Fname LIKE 's%' AND Lname LIKE 't%' LIMIT 0,10; 
+
+--marksheetMeritList.query.of.Proj4;
+
+SELECT id,'physics','chemistry','maths'(physics+chemistry+maths) AS total FROM st_marksheet
+WHERE physics>=35,chemistry>=35,maths>=35
+ORDER BY total DESC LIMIT 0,10;

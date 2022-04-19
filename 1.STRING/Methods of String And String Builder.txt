@@ -1,0 +1,28 @@
+METHODS OF STRING 
+
+replace();
+repalceAll();
+trim();
+valueof();
+toChararray();
+tolowercase();
+touppercase();
+indexof();
+substring();
+split();
+concate();
+
+
+METHODS OF STRING BUFFER
+
+
+replace();
+indexof();
+lastindexof();
+insert();
+delete();
+append();
+substring();
+length();
+reverse();
+capacity();

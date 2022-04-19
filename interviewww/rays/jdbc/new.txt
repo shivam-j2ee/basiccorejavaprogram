@@ -1,0 +1,41 @@
+public final class JdbcDataSource(){
+
+private static JdbcDataSource dataSource;
+private CombopooledDataSource cpds;
+private JdbcDataSource(){}
+
+private JdbcDataSource getInstance(){
+
+if(dataSource==null){
+ResourceBundle rb= ResouceBundle.getBundle("com.ray.system");
+dataSource =new JdbcDataSource();
+dataSource.cpds = new CombopooledDataSource();
+try{
+dataSource.cpds.setDriverClass(rb.getString("driver"));
+}catch(Exception e){
+e.printStackTrace();
+}
+dataSource.cpds.setJdbcUrl(rb.getString(url));
+dataSource.cpds.setAcquireIncrement(new Integer(rb.getString("acquireIncreament")));
+dataSource.cpds.setMaxPoolSize(new Integer(rb.getString("maxPool")));
+dataSource.cpds.setMinPoolSize(new Integer(rb.getString("minPool")));
+}
+return dataSource;
+}
+
+public static Connection getConnection(){
+
+return getInstance.dpcs.getConnection();
+}
+public static void closeConnection(Conncetion c){
+if(c!=null){
+try{
+c.close();
+}catch(SQLException e){
+e.printStackTrace();
+}
+}
+}
+
+
+}
